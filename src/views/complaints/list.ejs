@@ -1,0 +1,11 @@
+<%- include('../partials/top', { title }) %>
+<div class="page-heading"><div><p class="eyebrow">REQUESTS</p><h1><%= title %></h1><p class="muted">Review ownership, priority, and current progress.</p></div>
+<% if (currentUser.role === 'STUDENT') { %><a class="button primary" href="/complaints/new">＋ New complaint</a><% } %></div>
+<section class="panel">
+  <form class="filter-row" method="get" action="/complaints"><label for="status">Filter by status</label><select id="status" name="status"><option value="">All statuses</option><% ['OPEN','ASSIGNED','IN_PROGRESS','RESOLVED','CLOSED','REOPENED','CANCELLED'].forEach((status) => { %><option value="<%= status %>" <%= selectedStatus === status ? 'selected' : '' %>><%= status.replace('_',' ') %></option><% }); %></select><button class="button secondary small" type="submit">Apply</button></form>
+  <% if (!complaints.length) { %><div class="empty-state"><span>▤</span><h3>No matching complaints</h3><p>Try a different status or create a request.</p></div><% } else { %>
+  <div class="table-wrap"><table><thead><tr><th>Complaint</th><% if (currentUser.role !== 'STUDENT') { %><th>Student</th><% } %><th>Category</th><th>Priority</th><th>Assigned to</th><th>Updated</th><th>Status</th></tr></thead><tbody>
+    <% complaints.forEach((item) => { %><tr><td><a class="row-title" href="/complaints/<%= item._id %>"><%= item.title %></a><small>#<%= item._id.toString().slice(-7).toUpperCase() %></small></td><% if (currentUser.role !== 'STUDENT') { %><td><%= item.createdBy ? item.createdBy.name : '—' %></td><% } %><td><%= item.category %></td><td><span class="priority priority-<%= item.priority.toLowerCase() %>"><%= item.priority %></span></td><td><%= item.assignedTo ? item.assignedTo.name : 'Unassigned' %></td><td><%= item.updatedAt.toLocaleDateString() %></td><td><%- include('../partials/status', { status: item.status }) %></td></tr><% }); %>
+  </tbody></table></div><% } %>
+</section>
+<%- include('../partials/bottom') %>

@@ -1,0 +1,10 @@
+<%- include('../partials/top', { title }) %>
+<div class="page-heading"><div><p class="eyebrow">TECHNICIAN WORKSPACE</p><h1>Your work queue</h1><p class="muted">Prioritize assigned requests and leave a clear trail of progress.</p></div></div>
+<section class="stat-grid four">
+  <article class="stat-card"><span class="stat-icon blue">▤</span><span class="stat-label">Active assignments</span><strong><%= total %></strong><small>Requests in your queue</small></article>
+  <% ['CRITICAL','HIGH','MEDIUM'].forEach((priority) => { const item = byPriority.find((entry) => entry._id === priority); %><article class="stat-card"><span class="stat-icon <%= priority === 'CRITICAL' ? 'red' : priority === 'HIGH' ? 'amber' : 'blue' %>">!</span><span class="stat-label"><%= priority %> priority</span><strong><%= item ? item.count : 0 %></strong><small>Assigned requests</small></article><% }); %>
+</section>
+<section class="panel"><div class="panel-heading"><div><h2>Assigned complaints</h2><p>Oldest requests appear first</p></div><a class="text-link" href="/complaints">View queue →</a></div>
+  <% if (!complaints.length) { %><div class="empty-state"><span>✓</span><h3>Queue is clear</h3><p>New assignments will show up here.</p></div><% } else { %><div class="table-wrap"><table><thead><tr><th>Complaint</th><th>Student</th><th>Category</th><th>Priority</th><th>Deadline</th><th>Status</th></tr></thead><tbody><% complaints.forEach((item) => { %><tr><td><a class="row-title" href="/complaints/<%= item._id %>"><%= item.title %></a><small><%= item.location %></small></td><td><%= item.createdBy.name %></td><td><%= item.category %></td><td><span class="priority priority-<%= item.priority.toLowerCase() %>"><%= item.priority %></span></td><td><%= item.resolutionDeadlineAt.toLocaleString() %></td><td><%- include('../partials/status', { status: item.status }) %></td></tr><% }); %></tbody></table></div><% } %>
+</section>
+<%- include('../partials/bottom') %>

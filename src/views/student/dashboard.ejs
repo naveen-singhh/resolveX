@@ -1,0 +1,16 @@
+<%- include('../partials/top', { title }) %>
+<div class="page-heading"><div><p class="eyebrow">STUDENT OVERVIEW</p><h1>Your requests at a glance</h1><p class="muted">Track progress and add detail whenever it helps.</p></div><a class="button primary" href="/complaints/new">＋ New complaint</a></div>
+<section class="stat-grid three">
+  <article class="stat-card"><span class="stat-icon blue">▤</span><span class="stat-label">Total complaints</span><strong><%= stats.total %></strong><small>All requests submitted</small></article>
+  <article class="stat-card"><span class="stat-icon amber">◷</span><span class="stat-label">Active requests</span><strong><%= stats.open %></strong><small>Open or being handled</small></article>
+  <article class="stat-card"><span class="stat-icon green">✓</span><span class="stat-label">Resolved</span><strong><%= stats.resolved %></strong><small>Resolved or closed</small></article>
+</section>
+<section class="panel">
+  <div class="panel-heading"><div><h2>Recent complaints</h2><p>Your latest service requests and updates</p></div><a class="text-link" href="/complaints">View all →</a></div>
+  <% if (!complaints.length) { %><div class="empty-state"><span>▤</span><h3>No complaints yet</h3><p>When you submit a request, it will appear here.</p><a href="/complaints/new" class="button secondary">Create a complaint</a></div><% } else { %>
+    <div class="table-wrap"><table><thead><tr><th>Complaint</th><th>Category</th><th>Submitted</th><th>Technician</th><th>Status</th></tr></thead><tbody>
+    <% complaints.forEach((item) => { %><tr><td><a class="row-title" href="/complaints/<%= item._id %>"><%= item.title %></a><small>#<%= item._id.toString().slice(-7).toUpperCase() %></small></td><td><%= item.category %></td><td><%= item.createdAt.toLocaleDateString() %></td><td><%= item.assignedTo ? item.assignedTo.name : 'Awaiting assignment' %></td><td><%- include('../partials/status', { status: item.status }) %></td></tr><% }); %>
+    </tbody></table></div>
+  <% } %>
+</section>
+<%- include('../partials/bottom') %>

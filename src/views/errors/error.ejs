@@ -1,0 +1,3 @@
+<%- include('../partials/top', { title }) %>
+<section class="panel error-panel"><span class="error-code"><%= status || 500 %></span><h1><%= title %></h1><p><%= message %></p><a class="button primary" href="<%= currentUser ? '/' : '/login' %>">Return to ResolveX</a></section>
+<%- include('../partials/bottom') %>

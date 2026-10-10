@@ -1,0 +1,14 @@
+<%- include('../partials/top', { title }) %>
+<div class="page-heading"><div><p class="eyebrow">NEW REQUEST</p><h1>Tell us what needs attention</h1><p class="muted">We’ll route your complaint to the right service team.</p></div></div>
+<section class="panel form-panel">
+  <% if (errors && errors.length) { %><div class="form-errors"><% errors.forEach((error) => { %><p><%= error %></p><% }); %></div><% } %>
+  <form action="/complaints" method="post" class="form-stack">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <label>Complaint title<input name="title" value="<%= values.title || '' %>" required minlength="5" maxlength="120" placeholder="A short summary of the issue"></label>
+    <div class="form-grid"><label>Category<select name="category" required><option value="">Choose a category</option><% [['AMENITIES','Amenities'],['WATER','Water and plumbing'],['ELECTRICAL','Electrical'],['CLEANING','Cleaning'],['SECURITY','Security'],['IT','IT support'],['OTHER','Other']].forEach(([key,label]) => { %><option value="<%= key %>" <%= values.category === key ? 'selected' : '' %>><%= label %></option><% }); %></select></label><label>Location<input name="location" value="<%= values.location || '' %>" required maxlength="120" placeholder="Building, room, or area"></label></div>
+    <label>Details<textarea name="description" rows="6" required minlength="10" maxlength="5000" placeholder="Describe what happened and any helpful context"><%= values.description || '' %></textarea></label>
+    <div class="form-hint">New requests start at Medium priority. An administrator can adjust priority and the SLA deadline.</div>
+    <div class="button-row"><a href="/complaints" class="button secondary">Cancel</a><button class="button primary" type="submit">Submit complaint <span>→</span></button></div>
+  </form>
+</section>
+<%- include('../partials/bottom') %>

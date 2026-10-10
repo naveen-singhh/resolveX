@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1048a3">
+  <title><%= title %> | ResolveX</title>
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body class="<%= currentUser ? 'app-shell' : 'auth-shell' %>">
+<% if (currentUser) { %>
+  <aside class="sidebar">
+    <a class="brand" href="/"><span class="brand-mark">R</span><span>Resolve<span class="brand-x">X</span><small>Service desk</small></span></a>
+    <nav aria-label="Main navigation" class="side-nav">
+      <% if (currentUser.role === 'STUDENT') { %>
+        <a href="/dashboard" class="<%= title === 'Student dashboard' ? 'active' : '' %>"><span>▦</span>Dashboard</a>
+        <a href="/complaints"><span>▤</span>My complaints</a>
+        <a href="/complaints/new"><span>＋</span>New complaint</a>
+      <% } else if (currentUser.role === 'TECHNICIAN') { %>
+        <a href="/technician/dashboard" class="<%= title === 'Technician dashboard' ? 'active' : '' %>"><span>▦</span>Work queue</a>
+        <a href="/complaints"><span>▤</span>Assigned complaints</a>
+      <% } else { %>
+        <a href="/admin/dashboard" class="<%= title === 'Administration overview' ? 'active' : '' %>"><span>▦</span>Overview</a>
+        <a href="/admin/complaints"><span>▤</span>All complaints</a>
+        <a href="/admin/staff"><span>♙</span>Staff</a>
+        <a href="/admin/sla-policies"><span>◷</span>SLA policies</a>
+        <a href="/admin/audit-logs"><span>☷</span>Audit log</a>
+      <% } %>
+      <a href="/notifications"><span>♧</span>Notifications<% if (unreadCount) { %><b class="nav-count"><%= unreadCount %></b><% } %></a>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="signed-in"><span class="avatar"><%= currentUser.name.slice(0, 1).toUpperCase() %></span><span><strong><%= currentUser.name %></strong><small><%= currentUser.role.toLowerCase() %></small></span></div>
+      <form action="/logout" method="post"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="nav-logout" type="submit">↪ Sign out</button></form>
+    </div>
+  </aside>
+  <div class="main-column">
+    <header class="topbar">
+      <div class="topbar-title"><span class="eyebrow">RESOLVEX / SERVICE DESK</span><strong><%= title %></strong></div>
+      <div class="topbar-actions"><a class="notification-link" href="/notifications" aria-label="Notifications">♧<% if (unreadCount) { %><span><%= unreadCount %></span><% } %></a><span class="top-user"><%= currentUser.name %></span></div>
+    </header>
+    <main class="page-content">
+      <% if (flash.success && flash.success.length) { %><div class="flash success" role="status"><%= flash.success.join(' ') %></div><% } %>
+      <% if (flash.error && flash.error.length) { %><div class="flash error" role="alert"><%= flash.error.join(' ') %></div><% } %>
+<% } else { %>
+  <main class="auth-page">
+<% } %>

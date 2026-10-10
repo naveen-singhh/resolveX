@@ -1,0 +1,24 @@
+<%- include('../partials/top', { title }) %>
+<section class="auth-card">
+  <div class="auth-form-panel">
+    <a class="auth-brand" href="/"><span class="brand-mark">R</span> Resolve<span class="brand-x">X</span></a>
+    <p class="eyebrow">YOUR SERVICE DESK, IN ONE PLACE</p>
+    <h1>Welcome back</h1>
+    <p class="muted">Sign in to follow requests, work through your queue, or manage service delivery.</p>
+    <% if (errors && errors.length) { %><div class="form-errors" role="alert"><% errors.forEach((error) => { %><p><%= error %></p><% }); %></div><% } %>
+    <form action="/login" method="post" class="form-stack">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <label>Email address<input type="email" name="email" value="<%= email || '' %>" autocomplete="email" required maxlength="254"></label>
+      <label>Password<input type="password" name="password" autocomplete="current-password" required maxlength="128"></label>
+      <button class="button primary full" type="submit">Sign in <span>→</span></button>
+    </form>
+    <p class="auth-switch">New to ResolveX? <a href="/register">Create a student account</a></p>
+    <%- include('../partials/auth-flash') %>
+  </div>
+  <div class="auth-visual">
+    <div class="visual-copy"><span class="visual-pill">SERVICE, MADE VISIBLE</span><h2>Every request.<br>Clearly resolved.</h2><p>One place for updates, ownership, and progress you can trust.</p></div>
+    <img src="/images/dashboard-reference.jpg" alt="Blue GIS-style service dashboard design reference">
+    <span class="visual-caption">A clearer view of work in progress</span>
+  </div>
+</section>
+<%- include('../partials/bottom') %>

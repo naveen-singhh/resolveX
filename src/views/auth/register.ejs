@@ -1,0 +1,25 @@
+<%- include('../partials/top', { title }) %>
+<section class="auth-card register-card">
+  <div class="auth-form-panel">
+    <a class="auth-brand" href="/"><span class="brand-mark">R</span> Resolve<span class="brand-x">X</span></a>
+    <p class="eyebrow">STUDENT ACCESS</p>
+    <h1>Create your account</h1>
+    <p class="muted">Submit service requests and keep every update in one place.</p>
+    <% if (errors && errors.length) { %><div class="form-errors" role="alert"><% errors.forEach((error) => { %><p><%= error %></p><% }); %></div><% } %>
+    <form action="/register" method="post" class="form-stack">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <label>Full name<input name="name" value="<%= values.name || '' %>" autocomplete="name" required maxlength="80"></label>
+      <label>Email address<input type="email" name="email" value="<%= values.email || '' %>" autocomplete="email" required maxlength="254"></label>
+      <label>Password <small>At least 10 characters</small><input type="password" name="password" autocomplete="new-password" required minlength="10" maxlength="128"></label>
+      <button class="button primary full" type="submit">Create account <span>→</span></button>
+    </form>
+    <p class="auth-switch">Already registered? <a href="/login">Sign in</a></p>
+    <%- include('../partials/auth-flash') %>
+  </div>
+  <div class="auth-visual register-visual">
+    <div class="visual-copy"><span class="visual-pill">YOUR REQUESTS, UNDER CONTROL</span><h2>From report<br>to resolution.</h2><p>Follow progress, add useful context, and know who owns the next step.</p></div>
+    <img src="/images/dashboard-reference.jpg" alt="Blue GIS-style service dashboard design reference">
+    <span class="visual-caption">A clearer view of work in progress</span>
+  </div>
+</section>
+<%- include('../partials/bottom') %>
