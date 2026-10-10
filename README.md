@@ -152,7 +152,9 @@ The process checks required environment variables before listening and exits exp
 
 ## Demo accounts and seed data
 
-`npm run seed` creates or updates one admin, technician, and student, default SLA policies, and a sample complaint. Configure demo credentials in `.env` before running the seed. Defaults are intentionally local-only; never reuse them in production. The seed operation only touches the explicitly named demo accounts and sample complaint.
+`npm run seed` creates or updates one admin, two technicians, eight students, default SLA policies, and 24 realistic complaints with a mix of open, assigned, in-progress, resolved, closed, reopened, and cancelled statuses. The seed also creates histories, comments, and notifications so the dashboards have useful records immediately.
+
+The seeded student accounts are `student@resolvex.local`, `riya.mehta@resolvex.local`, `kabir.patel@resolvex.local`, `ananya.iyer@resolvex.local`, `dev.malhotra@resolvex.local`, `ishita.rao@resolvex.local`, `neel.gupta@resolvex.local`, and `sara.khan@resolvex.local`. Both technicians (`tech@resolvex.local` and `tech2@resolvex.local`) use the configured technician demo password. Seeded students use the configured student demo password. Configure demo credentials in `.env` before running the seed. Defaults are intentionally local-only; never reuse them in production. Seeded complaint records are matched by student and title, so rerunning refreshes the same set instead of creating duplicate demo complaints.
 
 ## Commands
 
